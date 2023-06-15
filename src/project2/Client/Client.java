@@ -64,8 +64,12 @@ public class Client extends Logger implements Runnable {
       int port = Integer.parseInt(args[1]);
 
       client.showInfo("Establishing connection with server...\n");
+
       Registry registry = LocateRegistry.getRegistry(args[0], port);
+      client.showInfo("Located registry\n");
+
       RequestHandler server = (RequestHandler) registry.lookup("handler");
+      client.showInfo("Found request handler\n");
       client.setServer(server);
 
       Thread thread = new Thread(client);
