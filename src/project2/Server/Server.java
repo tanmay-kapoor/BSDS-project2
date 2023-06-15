@@ -3,29 +3,41 @@ package project2.Server;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.sql.Timestamp;
 
+import project2.Logger;
 import project2.RequestHandler;
 
-public class Server {
+public class Server extends Logger {
+
+  @Override
+  public String getTimestamp() {
+    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    return "[" + timestamp + "]";
+  }
+
   public static void main(String[] args) {
+    Server server = new Server();
     try {
       if (args.length != 2) {
         throw new IllegalArgumentException("Incorrect cli arguments. Must be exactly 2. ip and port");
       }
       int port = Integer.parseInt(args[1]);
 
-      System.out.println("Server running");
+      server.showInfo("Starting server...\n");
 
       System.setProperty("java.rmi.server.hostname", args[0]);
-      RequestHandler handler = new RequestHandlerImpl();
+      RequestHandler obj = new RequestHandlerImpl();
+      RequestHandler handler = (RequestHandler) UnicastRemoteObject.exportObject(obj, port);
 
+      server.showInfo("Creating Registry\n");
       Registry registry = LocateRegistry.createRegistry(port);
-      System.out.println("Registry created");
 
       registry.rebind("handler", handler);
-      System.out.println("Rebind for request handler done\n");
+      server.showInfo("Server started successfully\n\n");
     } catch (IllegalArgumentException | RemoteException e) {
-      System.out.println(e.getMessage());
+      server.showError(e.getMessage());
     }
   }
 }

@@ -1,18 +1,19 @@
 package project2.Server;
 
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import project2.Logger;
 import project2.RequestHandler;
 
-public class RequestHandlerImpl extends UnicastRemoteObject implements RequestHandler {
+public class RequestHandlerImpl extends Logger implements RequestHandler {
   private final Map<String, String> map;
 
   public RequestHandlerImpl() throws RemoteException {
     super();
     map = new HashMap<>();
+    showInfo("Populating HashMap\n");
     // read values from file
   }
 
@@ -20,6 +21,8 @@ public class RequestHandlerImpl extends UnicastRemoteObject implements RequestHa
   public String handleRequest(String command) throws RemoteException {
     command = command.trim();
     String res;
+
+    showRequest(command);
 
     String[] req = command.split("\\t+");
     req[0] = req[0].toUpperCase();
@@ -49,14 +52,14 @@ public class RequestHandlerImpl extends UnicastRemoteObject implements RequestHa
         break;
 
       default:
-        System.out.println("invalid request");
+        showError("Invalid request");
         throw new IllegalArgumentException("Invalid request. Must be GET, PUT, DELETE or STOP only.");
     }
+
     return res;
   }
 
-  @Override
-  public String get(String key) throws RemoteException {
+  private String get(String key) {
     if (!map.containsKey(key)) {
       throw new IllegalArgumentException("Can't get key that doesn't exist");
     }
@@ -64,13 +67,11 @@ public class RequestHandlerImpl extends UnicastRemoteObject implements RequestHa
     return map.get(key);
   }
 
-  @Override
-  public void put(String key, String value) throws RemoteException {
+  private void put(String key, String value) {
     map.put(key, value);
   }
 
-  @Override
-  public void delete(String key) throws RemoteException {
+  private void delete(String key) {
     if (!map.containsKey(key)) {
       throw new IllegalArgumentException("Can't delete key that doesn't exist");
     }
@@ -78,8 +79,7 @@ public class RequestHandlerImpl extends UnicastRemoteObject implements RequestHa
     map.remove(key);
   }
 
-  @Override
-  public void disconnectClient() throws RemoteException {
+  private void disconnectClient() {
     // write to file and disconnect client
   }
 
