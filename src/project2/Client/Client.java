@@ -1,5 +1,6 @@
 package project2.Client;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -43,7 +44,7 @@ public class Client extends Logger implements Runnable {
         command = sc.nextLine();
         String res = server.handleRequest(command);
         showResponse(res);
-      } catch (IllegalArgumentException | RemoteException e) {
+      } catch (IllegalArgumentException | IOException e) {
         showError(e.getMessage());
       }
     }
