@@ -19,11 +19,6 @@ public class Client extends Logger implements Runnable {
     this.sc = new Scanner(System.in);
   }
 
-  public Client(RequestHandler server) {
-    this.server = server;
-    this.sc = new Scanner(System.in);
-  }
-
   private void setServer(RequestHandler server) {
     this.server = server;
   }
