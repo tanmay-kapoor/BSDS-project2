@@ -19,7 +19,7 @@ public class Logger {
     System.out.println(getTimestamp() + " ERROR: " + msg);
   }
 
-  protected String getTimestamp() {
+  private String getTimestamp() {
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     return "[" + timestamp + "]";
   }

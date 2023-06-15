@@ -11,12 +11,6 @@ import project2.RequestHandler;
 
 public class Server extends Logger {
 
-  @Override
-  public String getTimestamp() {
-    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    return "[" + timestamp + "]";
-  }
-
   public static void main(String[] args) {
     Server server = new Server();
     try {
