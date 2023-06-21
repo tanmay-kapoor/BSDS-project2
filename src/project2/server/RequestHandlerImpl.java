@@ -1,4 +1,4 @@
-package project2.Server;
+package project2.server;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

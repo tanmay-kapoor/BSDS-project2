@@ -1,4 +1,4 @@
-package project2.Client;
+package project2.client;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
