@@ -23,11 +23,24 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import project2.Logger;
 import project2.RequestHandler;
 
+/**
+ * Class that implements the RequestHandler interface and is basically a representation of the
+ * object that needs to be export on a specific port number which can then be used by the client
+ * to send requests to be served.
+ */
 public class RequestHandlerImpl extends Logger implements RequestHandler {
   private final Map<String, String> map;
   private final ReadWriteLock rwlock;
   private String filePath;
 
+  /**
+   * Constructor that initializes the hash-map that is going to be the key-value store to be
+   * demonstrated in this project and the read-write lock that ensures all operations are
+   * thread safe.
+   *
+   * @throws RemoteException in case of communication related errors during the execution of a
+   *                         remote method call.
+   */
   public RequestHandlerImpl() throws RemoteException {
     super();
     map = new HashMap<>();

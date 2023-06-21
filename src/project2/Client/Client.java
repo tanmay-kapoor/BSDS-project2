@@ -10,11 +10,18 @@ import java.util.Scanner;
 import project2.Logger;
 import project2.RequestHandler;
 
+/**
+ * Class that represents a client in the Remote Method Invocation simulation. This is where all
+ * users connect to the server and send requests which send back a response.
+ */
+public class Client extends Logger {
+  private RequestHandler server;
+  private final Scanner sc;
 
-public class Client extends Logger implements Runnable {
-  RequestHandler server;
-  Scanner sc;
-
+  /**
+   * Constructor to initialize the scanner object for user input. This is called when the object
+   * to export has not been created yet.
+   */
   public Client() {
     this.server = null;
     this.sc = new Scanner(System.in);
@@ -24,8 +31,7 @@ public class Client extends Logger implements Runnable {
     this.server = server;
   }
 
-  @Override
-  public void run() {
+  private void start() {
     String command = "";
     showInfo("Connected to server\n");
     showInfo(
@@ -50,6 +56,15 @@ public class Client extends Logger implements Runnable {
     }
   }
 
+  /**
+   * Driver that is the entry point for the client. This method is executed when we run the
+   * program where it validates the cli arguments received and calls the required methods to
+   * proceed further in the program execution.
+   *
+   * @param args String array for command line arguments to be passed when running the program.
+   *             For this program this array should have two elements which are the ip address
+   *             and port number to locate the exported remote object.
+   */
   public static void main(String[] args) {
     Client client = new Client();
     try {
@@ -68,8 +83,7 @@ public class Client extends Logger implements Runnable {
       client.showInfo("Found request handler\n");
       client.setServer(server);
 
-      Thread thread = new Thread(client);
-      thread.start();
+      client.start();
     } catch (IllegalArgumentException | RemoteException | NotBoundException e) {
       client.showError(e.getMessage());
     }
